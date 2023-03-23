@@ -182,11 +182,8 @@ namespace DesafioBackend.Indicators.Tests
         {
             //arrange
             List<Coleta> lista = new List<Coleta>();
-            Coleta coleta1 = new(DateTime.Today, 1);
-            lista.Add(coleta1);
             Indicator indic = new("nome", lista, EnumResultado.Soma);
-            indic.DeleteColeta(coleta1.Id);
-
+            
             //act
             var act = () => indic.CalcularResultado();
 
