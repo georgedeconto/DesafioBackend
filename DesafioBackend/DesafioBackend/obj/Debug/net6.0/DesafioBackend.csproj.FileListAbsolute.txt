@@ -1,0 +1,12 @@
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\bin\Debug\net6.0\DesafioBackend.deps.json
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\bin\Debug\net6.0\DesafioBackend.dll
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\bin\Debug\net6.0\DesafioBackend.pdb
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\DesafioBackend.csproj.AssemblyReference.cache
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\DesafioBackend.GeneratedMSBuildEditorConfig.editorconfig
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\DesafioBackend.AssemblyInfoInputs.cache
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\DesafioBackend.AssemblyInfo.cs
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\DesafioBackend.csproj.CoreCompileInputs.cache
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\DesafioBackend.dll
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\refint\DesafioBackend.dll
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\DesafioBackend.pdb
+D:\TestesProgramas\DesafioBackend\DesafioBackend\DesafioBackend\obj\Debug\net6.0\ref\DesafioBackend.dll
