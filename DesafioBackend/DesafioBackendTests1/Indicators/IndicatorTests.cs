@@ -1,68 +1,92 @@
 ﻿using Xunit;
 using FluentAssertions;
 using DesafioBackend.Coletas;
+using System.Collections.Generic;
 
 namespace DesafioBackend.Indicators.Tests
 {
     public class IndicatorTests
     {
         [Fact]
-        public void Should_CreateIndicator()
+        public void Constructor_ShouldCreateIndicator()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
-            Coleta coleta1 = new(DateTime.Today, 100.0);
-            Coleta coleta2 = new(DateTime.Today, 200);
-            lista.Add(coleta1);
-            lista.Add(coleta2);
+            var coletas = new List<Coleta>();
+            var coleta1 = new Coleta(DateTime.Today, 100.0);
+            var coleta2 = new Coleta(DateTime.Today, 200);
+            coletas.Add(coleta1);
+            coletas.Add(coleta2);
+            var nome = "nome";
+            var resultado = EnumResultado.Media;
 
             //act
-            Indicator indic = new("nome", lista, EnumResultado.Media);
+            var indicator = new Indicator(nome, coletas, resultado);
 
             //assert
-            indic.Should().NotBeNull();
-            indic.Coletas.Should().Equal(lista);
-            indic.Nome.Should().Be("nome");
-            indic.Resultado.Should().Be(EnumResultado.Media);
+            indicator.Should().NotBeNull();
+            indicator.Coletas.Should().Equal(coletas);
+            indicator.Nome.Should().Be(nome);
+            indicator.Resultado.Should().Be(resultado);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("  ")]
+        public void Constructor_ShouldThrowException_WhenNameIsEmptyOrWhiteSpace(string nome)
+        {
+            //arrange
+            var coletas = new List<Coleta>();
+
+            //act
+            var act = () => new Indicator(nome, coletas, EnumResultado.Media);
+
+            //assert
+            act.Should().Throw<ArgumentException>("*O nome deve ser preenchido*");
         }
 
         [Fact]
-        public void Constructor_ShouldThrowException_WhenNameIsEmpty()
+        public void SetNome_ShouldSetNome()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
+            var coletas = new List<Coleta>();
+            var indicador = new Indicator("set nome", coletas, EnumResultado.Media);
 
             //act
-            var act = () => new Indicator(string.Empty, lista, EnumResultado.Media);
+            var novonome = "novo nome";
+            indicador.SetNome(novonome);
+
+            //assert
+            indicador.Nome.Should().Be(novonome);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("  ")]
+        public void SetNome_ShouldThrowException_WhenNomeIsEmptyOrWhiteSpace(string nome)
+        {
+            //arrange
+            var coletas = new List<Coleta>();
+            var indicador = new Indicator("set nome vazio", coletas, EnumResultado.Media);
+
+            //act
+            var act = () => indicador.SetNome(nome);
 
             //assert
             act.Should().Throw<ArgumentException>("*O nome deve ser preenchido*");
         }
 
         [Fact]
-        public void Constructor_ShouldThrowException_WhenNameIsWhiteSpace()
+        public void AddColeta_ShouldAddColeta()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
-
-            //act
-            var act = () => new Indicator("   ", lista, EnumResultado.Media);
-
-            //assert
-            act.Should().Throw<ArgumentException>("*O nome deve ser preenchido*");
-        }
-
-
-        [Fact]
-        public void Should_AddColeta()
-        {
-            //arrange
-            List<Coleta> lista = new List<Coleta>();
+            var coletas = new List<Coleta>();
             Coleta coleta1 = new(DateTime.Today, 100);
             Coleta coleta2 = new(DateTime.Today, 200);
-            lista.Add(coleta1);
-            lista.Add(coleta2);
-            Indicator indic = new("nome", lista, EnumResultado.Media);
+            coletas.Add(coleta1);
+            coletas.Add(coleta2);
+            Indicator indic = new("add coleta", coletas, EnumResultado.Media);
 
             //act
             Coleta coleta3 = new(DateTime.Today, 40);
@@ -75,15 +99,15 @@ namespace DesafioBackend.Indicators.Tests
         }
 
         [Fact]
-        public void Should_DeleteColeta()
+        public void DeleteColeta_ShouldDeleteColeta()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
-            Coleta coleta1 = new(DateTime.Today, 100.1);
+            var coletas = new List<Coleta>();
+            Coleta coleta1 = new(DateTime.Today, 100);
             Coleta coleta2 = new(DateTime.Today, 200);
-            lista.Add(coleta1);
-            lista.Add(coleta2);
-            Indicator indic = new("nome", lista, EnumResultado.Media);
+            coletas.Add(coleta1);
+            coletas.Add(coleta2);
+            Indicator indic = new("delete coleta", coletas, EnumResultado.Media);
 
             //act
             indic.DeleteColeta(coleta2.Id);
@@ -95,13 +119,13 @@ namespace DesafioBackend.Indicators.Tests
         }
 
         [Fact]
-        public void DeleteColeta_ShouldThrowException_WhenPersonDoesNotExist()
+        public void DeleteColeta_ShouldThrowException_WhenColetaDoesNotExist()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
+            var coletas = new List<Coleta>();
             Coleta coleta1 = new(DateTime.Today, 100.1);
-            lista.Add(coleta1);
-            Indicator indic = new("nome", lista, EnumResultado.Media);
+            coletas.Add(coleta1);
+            Indicator indic = new("coleta nao existe", coletas, EnumResultado.Media);
 
             //act
             var act = () => indic.DeleteColeta(Guid.NewGuid());
@@ -111,15 +135,15 @@ namespace DesafioBackend.Indicators.Tests
         }
 
         [Fact]
-        public void Should_EditColeta()
+        public void EditColeta_ShouldEditColeta()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
+            var coletas = new List<Coleta>();
             Coleta coleta1 = new(DateTime.Today, 100.1);
             Coleta coleta2 = new(DateTime.Today, 200);
-            lista.Add(coleta1);
-            lista.Add(coleta2);
-            Indicator indic = new("nome", lista, EnumResultado.Media);
+            coletas.Add(coleta1);
+            coletas.Add(coleta2);
+            Indicator indic = new("edit coleta", coletas, EnumResultado.Media);
 
             //act
             indic.EditColeta(coleta1.Id, 40.5);
@@ -133,12 +157,12 @@ namespace DesafioBackend.Indicators.Tests
         public void EditColeta_ShouldThrowException_WhenIdNotFound()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
+            var coletas = new List<Coleta>();
             Coleta coleta1 = new(DateTime.Today, 100.1);
             Coleta coleta2 = new(DateTime.Today, 200);
-            lista.Add(coleta1);
-            lista.Add(coleta2);
-            Indicator indic = new("nome", lista, EnumResultado.Media);
+            coletas.Add(coleta1);
+            coletas.Add(coleta2);
+            Indicator indic = new("id coleta não encontrado", coletas, EnumResultado.Media);
 
             //act
             var act = () => indic.EditColeta(Guid.NewGuid(), 40.5);
@@ -148,44 +172,44 @@ namespace DesafioBackend.Indicators.Tests
         }
 
         [Fact]
-        public void Should_CalcularResultadoSoma()
+        public void CalculateResultado_ShouldCalculateResultadoSoma()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
+            var coletas = new List<Coleta>();
             Coleta coleta1 = new(DateTime.Today, 1);
             Coleta coleta2 = new(DateTime.Today, 1);
-            lista.Add(coleta1);
-            lista.Add(coleta2);
-            Indicator indic = new("nome", lista, EnumResultado.Soma);
+            coletas.Add(coleta1);
+            coletas.Add(coleta2);
+            Indicator indic = new("reusltado soma", coletas, EnumResultado.Soma);
 
             //act & assert
-            indic.CalcularResultado().Should().Be(2);
+            indic.CalculateResultado().Should().Be(2);
         }
 
         [Fact]
-        public void Should_CalcularResultadoMedia()
+        public void CalculateResultado_ShouldCalculateResultadoMedia()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
+            var coletas = new List<Coleta>();
             Coleta coleta1 = new(DateTime.Today, 1);
             Coleta coleta2 = new(DateTime.Today, 1);
-            lista.Add(coleta1);
-            lista.Add(coleta2);
-            Indicator indic = new("nome", lista, EnumResultado.Media);
+            coletas.Add(coleta1);
+            coletas.Add(coleta2);
+            Indicator indic = new("resultado media", coletas, EnumResultado.Media);
 
             //act & assert
-            indic.CalcularResultado().Should().Be(1);
+            indic.CalculateResultado().Should().Be(1);
         }
 
         [Fact]
-        public void CalcularResultado_ShouldThrowException_WhenColetasIsEmpty()
+        public void CalculateResultado_ShouldThrowException_WhenColetasIsEmpty()
         {
             //arrange
-            List<Coleta> lista = new List<Coleta>();
-            Indicator indic = new("nome", lista, EnumResultado.Soma);
-            
+            var coletas = new List<Coleta>();
+            Indicator indic = new("coletas vazio", coletas, EnumResultado.Soma);
+
             //act
-            var act = () => indic.CalcularResultado();
+            var act = () => indic.CalculateResultado();
 
             //assert
             act.Should().Throw<InvalidOperationException>("*Não há coletas neste indicador*");

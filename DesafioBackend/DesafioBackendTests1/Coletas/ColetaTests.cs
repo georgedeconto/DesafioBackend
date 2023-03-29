@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
 
 namespace DesafioBackend.Coletas.Tests
 {
@@ -31,6 +32,22 @@ namespace DesafioBackend.Coletas.Tests
             //act and assert
             var act = () => new Coleta(data, valor);
             act.Should().Throw<ArgumentException>("*Data não pode ser no futuro*");
+        }
+
+        [Fact]
+        public void Should_SetValor()
+        {
+            //arrange
+            var data = DateTime.Now;
+            var valor = 10.34;
+            var coleta = new Coleta(data, valor);
+
+            //act
+            var novovalor = 11;
+            coleta.SetValor(novovalor);
+
+            //assert
+            coleta.Valor.Should().Be(novovalor);
         }
     }
 }

@@ -2,16 +2,9 @@
 
 namespace DesafioBackend.Indicators
 {
-
-    public enum EnumResultado
-    {
-        Soma,
-        Media
-    }
-
     public class Indicator
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; }
         public string Nome { get; private set; }
         public EnumResultado Resultado { get; set; }
         public List<Coleta> Coletas { get; private set; }
@@ -57,13 +50,12 @@ namespace DesafioBackend.Indicators
             coleta.SetValor(valor);
         }
 
-        public double CalcularResultado()
+        public double CalculateResultado()
         {
             if (Coletas.Count != 0)
             {
                 var arrayValor = Coletas.Select(x => x.Valor);
-                EnumResultado resultado = this.Resultado;
-                switch (resultado)
+                switch (Resultado)
                 {
                     case EnumResultado.Soma:
                         return arrayValor.Sum();

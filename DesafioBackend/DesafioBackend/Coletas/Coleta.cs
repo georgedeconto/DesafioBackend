@@ -2,8 +2,8 @@
 {
     public class Coleta
     {
-        public Guid Id { get; init; }
-        public DateTime Date { get; init; }
+        public Guid Id { get; }
+        public DateTime Date { get; }
 
         public double Valor { get; private set; }
 
@@ -22,15 +22,5 @@
         {
             Valor = valor;
         }
-
-        /*
-        public void SetDate(Coleta coleta, DateTime newDate)
-        {
-            if (newDate <= DateTime.Today)
-                throw new InvalidOperationException("Data não pode ser no futuro");
-                coleta.Date = newDate;
-            }
-        }
-        */
     }
 }
