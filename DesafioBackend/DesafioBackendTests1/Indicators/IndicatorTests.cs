@@ -86,15 +86,15 @@ namespace DesafioBackend.Indicators.Tests
             Coleta coleta2 = new(DateTime.Today, 200);
             coletas.Add(coleta1);
             coletas.Add(coleta2);
-            Indicator indic = new("add coleta", coletas, EnumResultado.Media);
+            Indicator indicador = new("add coleta", coletas, EnumResultado.Media);
 
             //act
             Coleta coleta3 = new(DateTime.Today, 40);
-            indic.AddColeta(coleta3);
+            indicador.AddColeta(coleta3);
 
             //assert
-            indic.Coletas.Count().Should().Be(3);
-            var lastColeta = indic.Coletas.Last();
+            indicador.Coletas.Count().Should().Be(3);
+            var lastColeta = indicador.Coletas.Last();
             lastColeta.Should().Be(coleta3);
         }
 
@@ -107,14 +107,14 @@ namespace DesafioBackend.Indicators.Tests
             Coleta coleta2 = new(DateTime.Today, 200);
             coletas.Add(coleta1);
             coletas.Add(coleta2);
-            Indicator indic = new("delete coleta", coletas, EnumResultado.Media);
+            Indicator indicador = new("delete coleta", coletas, EnumResultado.Media);
 
             //act
-            indic.DeleteColeta(coleta2.Id);
+            indicador.DeleteColeta(coleta2.Id);
 
             //assert
-            indic.Coletas.Count().Should().Be(1);
-            var coletaRestante = indic.Coletas.First();
+            indicador.Coletas.Count().Should().Be(1);
+            var coletaRestante = indicador.Coletas.First();
             coletaRestante.Should().Be(coleta1);
         }
 
@@ -125,10 +125,10 @@ namespace DesafioBackend.Indicators.Tests
             var coletas = new List<Coleta>();
             Coleta coleta1 = new(DateTime.Today, 100.1);
             coletas.Add(coleta1);
-            Indicator indic = new("coleta nao existe", coletas, EnumResultado.Media);
+            Indicator indicador = new("coleta nao existe", coletas, EnumResultado.Media);
 
             //act
-            var act = () => indic.DeleteColeta(Guid.NewGuid());
+            var act = () => indicador.DeleteColeta(Guid.NewGuid());
 
             //assert
             act.Should().Throw<ArgumentException>("*Coleta não encontrada*");
@@ -143,14 +143,14 @@ namespace DesafioBackend.Indicators.Tests
             Coleta coleta2 = new(DateTime.Today, 200);
             coletas.Add(coleta1);
             coletas.Add(coleta2);
-            Indicator indic = new("edit coleta", coletas, EnumResultado.Media);
+            Indicator indicador = new("edit coleta", coletas, EnumResultado.Media);
 
             //act
-            indic.EditColeta(coleta1.Id, 40.5);
+            indicador.EditColeta(coleta1.Id, 40.5);
 
             //assert
-            indic.Coletas.First().Valor.Should().Be(40.5);
-            indic.Coletas.Last().Should().Be(coleta2);
+            indicador.Coletas.First().Valor.Should().Be(40.5);
+            indicador.Coletas.Last().Should().Be(coleta2);
         }
 
         [Fact]
@@ -162,10 +162,10 @@ namespace DesafioBackend.Indicators.Tests
             Coleta coleta2 = new(DateTime.Today, 200);
             coletas.Add(coleta1);
             coletas.Add(coleta2);
-            Indicator indic = new("id coleta não encontrado", coletas, EnumResultado.Media);
+            Indicator indicador = new("id coleta não encontrado", coletas, EnumResultado.Media);
 
             //act
-            var act = () => indic.EditColeta(Guid.NewGuid(), 40.5);
+            var act = () => indicador.EditColeta(Guid.NewGuid(), 40.5);
 
             //assert
             act.Should().Throw<ArgumentException>("*Coleta não encontrada*");
@@ -180,10 +180,10 @@ namespace DesafioBackend.Indicators.Tests
             Coleta coleta2 = new(DateTime.Today, 1);
             coletas.Add(coleta1);
             coletas.Add(coleta2);
-            Indicator indic = new("reusltado soma", coletas, EnumResultado.Soma);
+            Indicator indicador = new("reusltado soma", coletas, EnumResultado.Soma);
 
             //act & assert
-            indic.CalculateResultado().Should().Be(2);
+            indicador.CalculateResultado().Should().Be(2);
         }
 
         [Fact]
@@ -195,10 +195,10 @@ namespace DesafioBackend.Indicators.Tests
             Coleta coleta2 = new(DateTime.Today, 1);
             coletas.Add(coleta1);
             coletas.Add(coleta2);
-            Indicator indic = new("resultado media", coletas, EnumResultado.Media);
+            Indicator indicador = new("resultado media", coletas, EnumResultado.Media);
 
             //act & assert
-            indic.CalculateResultado().Should().Be(1);
+            indicador.CalculateResultado().Should().Be(1);
         }
 
         [Fact]
@@ -206,10 +206,10 @@ namespace DesafioBackend.Indicators.Tests
         {
             //arrange
             var coletas = new List<Coleta>();
-            Indicator indic = new("coletas vazio", coletas, EnumResultado.Soma);
+            Indicator indicador = new("coletas vazio", coletas, EnumResultado.Soma);
 
             //act
-            var act = () => indic.CalculateResultado();
+            var act = () => indicador.CalculateResultado();
 
             //assert
             act.Should().Throw<InvalidOperationException>("*Não há coletas neste indicador*");
