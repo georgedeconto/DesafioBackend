@@ -1,4 +1,4 @@
-﻿using DesafioBackend.Coletas;
+﻿using DesafioBackend.DataCollection;
 
 namespace DesafioBackend.Indicators
 {
@@ -26,11 +26,10 @@ namespace DesafioBackend.Indicators
 
         public void AddDataCollectionPoint(DateTime date, double value)
         {
-            foreach (DataCollectionPoint point in DataCollectionPoints)
-            {
-                if (date == point.Date)
-                    throw new ArgumentException("Já existe uma coleta nesta data");
-            }
+            var dataCollectionPoint = DataCollectionPoints.FirstOrDefault(c => c.Date == date);
+            if (dataCollectionPoint != null)
+                throw new ArgumentException("Já existe uma coleta nesta data");
+
             var newPoint = new DataCollectionPoint(Id, date: date, value: value);
             DataCollectionPoints.Add(newPoint);
         }

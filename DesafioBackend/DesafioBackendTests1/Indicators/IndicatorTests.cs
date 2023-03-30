@@ -1,6 +1,6 @@
 ﻿using Xunit;
 using FluentAssertions;
-using DesafioBackend.Coletas;
+using DesafioBackend.DataCollection;
 using System.Collections.Generic;
 
 namespace DesafioBackend.Indicators.Tests
@@ -24,20 +24,6 @@ namespace DesafioBackend.Indicators.Tests
         }
 
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("  ")]
-        public void Constructor_ShouldThrowException_WhenNameIsEmptyOrWhiteSpace(string name)
-        {
-            //act
-            var act = () => new Indicator(name: name, resultType: EnumResult.Average);
-
-            //assert
-            act.Should().Throw<ArgumentException>("*O nome deve ser preenchido*");
-        }
-
-
         [Fact]
         public void SetName_ShouldSetName()
         {
@@ -57,7 +43,7 @@ namespace DesafioBackend.Indicators.Tests
         [InlineData(null)]
         [InlineData("")]
         [InlineData("  ")]
-        public void SetName_ShouldThrowException_WhenNameIsEmptyOrWhiteSpace(string name)
+        public void SetName_ShouldThrowException_WhenNameIsNullOrEmptyOrWhiteSpace(string name)
         {
             //arrange
             var indicator = new Indicator(name: "name", resultType: EnumResult.Average);
@@ -81,7 +67,7 @@ namespace DesafioBackend.Indicators.Tests
             indicator.AddDataCollectionPoint(date: date, value: value);
 
             //assert
-            indicator.DataCollectionPoints.Count().Should().Be(1);
+            indicator.DataCollectionPoints.Should().HaveCount(1);
             var lastPoint = indicator.DataCollectionPoints.Last();
             lastPoint.Date.Should().Be(date);
             lastPoint.Value.Should().Be(value);
@@ -120,7 +106,7 @@ namespace DesafioBackend.Indicators.Tests
             indicator.DeleteDataCollectionPoint(date1);
 
             //assert
-            indicator.DataCollectionPoints.Count().Should().Be(1);
+            indicator.DataCollectionPoints.Should().HaveCount(1);
             indicator.DataCollectionPoints.Last().Date.Should().Be(date2);
             indicator.DataCollectionPoints.Last().Value.Should().Be(value2);
         }

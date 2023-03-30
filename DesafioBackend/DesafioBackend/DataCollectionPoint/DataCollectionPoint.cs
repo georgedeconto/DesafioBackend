@@ -1,14 +1,11 @@
-﻿namespace DesafioBackend.Coletas
+﻿namespace DesafioBackend.DataCollection
 {
     public class DataCollectionPoint
     {
         public Guid Id { get; }
-        public Guid IndicatorId { get; init; }
-        public DateTime Date { get; init; }
-
+        public Guid IndicatorId { get; }
+        public DateTime Date { get; }
         public double Value { get; private set; }
-
-
 
         public DataCollectionPoint(Guid indicatorId, DateTime date, double value)
         {
