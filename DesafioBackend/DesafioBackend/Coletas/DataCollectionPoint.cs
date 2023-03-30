@@ -3,11 +3,11 @@
     public class DataCollectionPoint
     {
         public Guid Id { get; }
-        public Guid IndicatorId { get; private set; }
-        public DateTime Date { get; private set; }
+        public Guid IndicatorId { get; init; }
+        public DateTime Date { get; init; }
 
         public double Value { get; private set; }
-        
+
 
 
         public DataCollectionPoint(Guid indicatorId, DateTime date, double value)
@@ -24,11 +24,6 @@
         public void SetValue(double value)
         {
             Value = value;
-        }
-
-        public void SetIndicatorId(Guid id)
-        {
-            IndicatorId = id;
         }
     }
 }
