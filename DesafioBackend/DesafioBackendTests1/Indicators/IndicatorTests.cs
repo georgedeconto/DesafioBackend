@@ -142,7 +142,9 @@ namespace DesafioBackend.Indicators.Tests
 
             //assert
             indicator.DataCollectionPoints.First().Value.Should().Be(newValue);
+            indicator.DataCollectionPoints.First().Date.Should().Be(date1);
             indicator.DataCollectionPoints.Last().Value.Should().Be(value2);
+            indicator.DataCollectionPoints.Should().HaveCount(2);
         }
 
         [Fact]
@@ -176,7 +178,7 @@ namespace DesafioBackend.Indicators.Tests
             indicator.AddDataCollectionPoint(date: date2, value: value2);
 
             //act & assert
-            indicator.CalculateResult().Should().Be(value1+value2);
+            indicator.CalculateResult().Should().Be(value1 + value2);
         }
 
         [Fact]
@@ -192,7 +194,7 @@ namespace DesafioBackend.Indicators.Tests
             indicator.AddDataCollectionPoint(date: date2, value: value2);
 
             //act & assert
-            indicator.CalculateResult().Should().Be((value1 + value2)/2);
+            indicator.CalculateResult().Should().Be((value1 + value2) / 2);
         }
 
         [Fact]
