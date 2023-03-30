@@ -29,9 +29,9 @@ namespace DesafioBackend.Indicators.Tests
         {
             //arrange
             var indicador = new Indicator(name: "name", resultType: EnumResult.Average);
+            var newname = "new name";
 
             //act
-            var newname = "new name";
             indicador.SetName(newname);
 
             //assert
@@ -135,9 +135,9 @@ namespace DesafioBackend.Indicators.Tests
             var value2 = 50;
             indicator.AddDataCollectionPoint(date: date1, value: value1);
             indicator.AddDataCollectionPoint(date: date2, value: value2);
+            var newValue = 45;
 
             //act
-            var newValue = 45;
             indicator.EditDataCollectionPoint(date1, newValue);
 
             //assert
@@ -155,10 +155,10 @@ namespace DesafioBackend.Indicators.Tests
             var date = DateTime.Today;
             var value = 40;
             indicator.AddDataCollectionPoint(date: date, value: value);
-
-            //act
             var nonExistentDate = DateTime.Today.AddDays(-1);
             var newValue = 50;
+
+            //act
             var act = () => indicator.EditDataCollectionPoint(nonExistentDate, newValue);
 
             //assert
