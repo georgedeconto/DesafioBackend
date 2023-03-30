@@ -5,62 +5,65 @@ namespace DesafioBackend.Indicators
     public class Indicator
     {
         public Guid Id { get; }
-        public string Nome { get; private set; }
-        public EnumResultado Resultado { get; set; }
-        public List<Coleta> Coletas { get; private set; }
+        public string Name { get; private set; } = null!;
+        public EnumResult ResultType { get; set; }
+        public List<DataCollectionPoint> DataCollectionPoints { get; private set; }
 
-        public Indicator(string nome, List<Coleta> coletas, EnumResultado resultado)
+        public Indicator(string name, EnumResult resultType)
         {
-            if (string.IsNullOrWhiteSpace(nome))
-                throw new ArgumentException("O nome deve ser preenchido");
-
             Id = Guid.NewGuid();
-            Nome = nome;
-            Coletas = coletas;
-            Resultado = resultado;
+            SetName(name);
+            DataCollectionPoints = new List<DataCollectionPoint>();
+            ResultType = resultType;
         }
 
-        public void SetNome(string nome)
+        public void SetName(string name)
         {
-            if (string.IsNullOrWhiteSpace(nome))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("O nome deve ser preenchido");
-            Nome = nome;
+            Name = name;
         }
 
-        public void AddColeta(Coleta coleta)
+        public void AddDataCollectionPoint(DateTime date, double value)
         {
-            Coletas.Add(coleta);
-        }
-
-        public void DeleteColeta(Guid id)
-        {
-            var coleta = Coletas.FirstOrDefault(c => c.Id == id);
-            if (coleta == null)
-                throw new ArgumentException("Coleta não encontrada", nameof(id));
-
-            Coletas.Remove(coleta);
-        }
-
-        public void EditColeta(Guid id, double valor)
-        {
-            var coleta = Coletas.FirstOrDefault(c => c.Id == id);
-            if (coleta == null)
-                throw new ArgumentException("Coleta não encontrada", nameof(id));
-
-            coleta.SetValor(valor);
-        }
-
-        public double CalculateResultado()
-        {
-            if (Coletas.Count != 0)
+            foreach (DataCollectionPoint point in DataCollectionPoints)
             {
-                var arrayValor = Coletas.Select(x => x.Valor);
-                switch (Resultado)
+                if (date == point.Date)
+                    throw new ArgumentException("Já existe uma coleta nesta data");
+            }
+            var newPoint = new DataCollectionPoint(Id, date: date, value: value);
+            DataCollectionPoints.Add(newPoint);
+        }
+
+        public void DeleteDataCollectionPoint(DateTime date)
+        {
+            var dataCollectionPoint = DataCollectionPoints.FirstOrDefault(c => c.Date == date);
+            if (dataCollectionPoint == null)
+                throw new ArgumentException("Coleta não encontrada", nameof(date));
+
+            DataCollectionPoints.Remove(dataCollectionPoint);
+        }
+
+        public void EditDataCollectionPoint(DateTime date, double value)
+        {
+            var dataCollectionPoint = DataCollectionPoints.FirstOrDefault(c => c.Date == date);
+            if (dataCollectionPoint == null)
+                throw new ArgumentException("Coleta não encontrada", nameof(date));
+
+            dataCollectionPoint.SetValue(value);
+        }
+
+        public double CalculateResult()
+        {
+            if (DataCollectionPoints.Count != 0)
+            {
+                var valueArray = DataCollectionPoints.Select(x => x.Value);
+                switch (ResultType)
                 {
-                    case EnumResultado.Soma:
-                        return arrayValor.Sum();
-                    case EnumResultado.Media:
-                        return arrayValor.Average();
+                    case EnumResult.Sum:
+                        return valueArray.Sum();
+                    case EnumResult.Average:
+                        return valueArray.Average();
                 }
             }
             throw new InvalidOperationException("Não há coletas neste indicador");
