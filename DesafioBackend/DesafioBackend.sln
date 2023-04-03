@@ -5,12 +5,7 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioBackend", "DesafioBackend\DesafioBackend.csproj", "{B678A282-2E62-4EDA-A232-2E41F6DBB96F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3BB7B5DA-0039-47E6-8197-DB3DEB9A2B6B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B678A282-2E62-4EDA-A232-2E41F6DBB96F} = {B678A282-2E62-4EDA-A232-2E41F6DBB96F}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioBackendTests", "DesafioBackendTests1\DesafioBackendTests.csproj", "{AAF13AF6-8113-42DA-9A99-F2CF45AF683E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesafioBackendTests", "DesafioBackendTests1\DesafioBackendTests.csproj", "{AAF13AF6-8113-42DA-9A99-F2CF45AF683E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +17,6 @@ Global
 		{B678A282-2E62-4EDA-A232-2E41F6DBB96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B678A282-2E62-4EDA-A232-2E41F6DBB96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B678A282-2E62-4EDA-A232-2E41F6DBB96F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BB7B5DA-0039-47E6-8197-DB3DEB9A2B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BB7B5DA-0039-47E6-8197-DB3DEB9A2B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BB7B5DA-0039-47E6-8197-DB3DEB9A2B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BB7B5DA-0039-47E6-8197-DB3DEB9A2B6B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AAF13AF6-8113-42DA-9A99-F2CF45AF683E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AAF13AF6-8113-42DA-9A99-F2CF45AF683E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAF13AF6-8113-42DA-9A99-F2CF45AF683E}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DesafioBackend.Indicators
 {
-    public enum EnumResultado
+    public enum EnumResult
     {
-        Soma,
-        Media
+        Sum,
+        Average
     }
 
 }
