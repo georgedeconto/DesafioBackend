@@ -29,13 +29,27 @@ namespace DesafioBackend.Indicators.Tests
         {
             //arrange
             var indicador = new Indicator(name: "name", resultType: EnumResult.Average);
-            var newname = "new name";
+            var newName = "new name";
 
             //act
-            indicador.SetName(newname);
+            indicador.SetName(newName);
 
             //assert
-            indicador.Name.Should().Be(newname);
+            indicador.Name.Should().Be(newName);
+        }
+
+        [Fact]
+        public void SetResultType_ShouldSetResultType()
+        {
+            //arrange
+            var indicador = new Indicator(name: "name", resultType: EnumResult.Average);
+            var newResultType = EnumResult.Sum;
+
+            //act
+            indicador.SetResultType(newResultType);
+
+            //assert
+            indicador.ResultType.Should().Be(newResultType);
         }
 
 

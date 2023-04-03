@@ -7,7 +7,7 @@ namespace DesafioBackend.DataCollection.Tests
     public class DataCollectionPointTests
     {
         [Fact]
-        public void Should_CreateDataCollectionPoint()
+        public void Constructor_ShouldCreateDataCollectionPoint()
         {
             //arrange
             var indicatorId = Guid.NewGuid();
@@ -47,9 +47,9 @@ namespace DesafioBackend.DataCollection.Tests
             var date = DateTime.Now;
             var value = 10.34;
             var dataCollectionPoint = new DataCollectionPoint(indicatorId, date, value);
+            var newValue = 11;
 
             //act
-            var newValue = 11;
             dataCollectionPoint.SetValue(newValue);
 
             //assert

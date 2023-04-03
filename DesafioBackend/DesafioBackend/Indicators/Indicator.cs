@@ -1,4 +1,5 @@
 ﻿using DesafioBackend.DataCollection;
+using System.Xml.Linq;
 
 namespace DesafioBackend.Indicators
 {
@@ -6,7 +7,7 @@ namespace DesafioBackend.Indicators
     {
         public Guid Id { get; }
         public string Name { get; private set; } = null!;
-        public EnumResult ResultType { get; set; }
+        public EnumResult ResultType { get; private set; }
         public List<DataCollectionPoint> DataCollectionPoints { get; private set; }
 
         public Indicator(string name, EnumResult resultType)
@@ -22,6 +23,11 @@ namespace DesafioBackend.Indicators
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("O nome deve ser preenchido");
             Name = name;
+        }
+
+        public void SetResultType(EnumResult resultType)
+        {
+            ResultType = resultType;
         }
 
         public void AddDataCollectionPoint(DateTime date, double value)
