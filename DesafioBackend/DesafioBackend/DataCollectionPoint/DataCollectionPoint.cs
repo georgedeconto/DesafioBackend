@@ -1,10 +1,13 @@
-﻿namespace DesafioBackend.DataCollection
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+
+namespace DesafioBackend.DataCollection
 {
     public class DataCollectionPoint
     {
-        public Guid Id { get; }
-        public Guid IndicatorId { get; }
-        public DateTime Date { get; }
+        public Guid Id { get; init; }
+        public Guid IndicatorId { get; init; }
+        public DateTime Date { get; init; }
         public double Value { get; private set; }
 
         public DataCollectionPoint(Guid indicatorId, DateTime date, double value)

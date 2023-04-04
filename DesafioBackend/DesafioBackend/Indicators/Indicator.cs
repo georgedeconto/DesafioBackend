@@ -1,11 +1,14 @@
 ﻿using DesafioBackend.DataCollection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace DesafioBackend.Indicators
 {
     public class Indicator
     {
-        public Guid Id { get; }
+        public Guid Id { get; init; }
         public string Name { get; private set; } = null!;
         public EnumResult ResultType { get; private set; }
         public List<DataCollectionPoint> DataCollectionPoints { get; private set; }
