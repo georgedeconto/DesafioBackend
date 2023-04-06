@@ -14,6 +14,13 @@ var connection = new SqliteConnection("Filename=:memory:");
 connection.Open();
 builder.Services.AddDbContext<DesafioBackendContext>(o => o.UseSqlite(connection)); // using in memory Sqlite server
 
+//builder.Services.AddDbContext<DesafioBackendContext>(optionsBuilder =>
+//{
+//    optionsBuilder.UseSqlServer("Data Source=localhost;Database=cqrs-local;User ID=SA;Password=qtbcu@2018;MultipleActiveResultSets=True;TrustServerCertificate=True");
+//});
+
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -52,8 +59,8 @@ static void AddInitialData(WebApplication app)
     indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-4), 50);
 
     var indicator2 = new Indicator(name: "indicator average", resultType: EnumResult.Average);
-    indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-2), 11.6);
-    indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-3), 5.9);
+    indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-2), 11.6);
+    indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-3), 5.9);
 
     db.IndicatorList.Add(indicator1);
     db.IndicatorList.Add(indicator2);

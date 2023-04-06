@@ -61,5 +61,12 @@ namespace ApiDesafioBackend.Controllers
         {
             await _mediator.Send(new DeleteIndicatorCommand(id));
         }
+
+        [HttpDelete("{id}/{date}")]
+        [SwaggerOperation(Tags = new[] { "Delete Data Collection Point" })]
+        public async Task Delete(Guid id, DateTime date)
+        {
+            await _mediator.Send(new DeleteDataCollectionPointCommand(id, date));
+        }
     }
 }

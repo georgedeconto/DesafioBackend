@@ -21,11 +21,13 @@ namespace DesafioBackend.Handlers
         }
         public async Task Handle(AddDataCollectionPointCommand request, CancellationToken cancellationToken)
         {
-
-            var selectedIndicator = await _data.IndicatorList.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var selectedIndicator = await _data.IndicatorList
+                .Include(d => d.DataCollectionPoints)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
             if (selectedIndicator == null)
                 throw new InvalidOperationException("Indicator not found");
             selectedIndicator.AddDataCollectionPoint(request.Date, request.Value);
+            _data.Update(selectedIndicator);
             await _data.SaveChangesAsync();
         }
     }

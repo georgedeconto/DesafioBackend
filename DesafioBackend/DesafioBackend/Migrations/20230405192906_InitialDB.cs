@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DesafioBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace DesafioBackend.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    ResultType = table.Column<int>(type: "INTEGER", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    ResultType = table.Column<int>(type: "nvarchar(24)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,7 +25,7 @@ namespace DesafioBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DataCollectionPoint",
+                name: "DataCollectionPoints",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -35,9 +35,9 @@ namespace DesafioBackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DataCollectionPoint", x => x.Id);
+                    table.PrimaryKey("PK_DataCollectionPoints", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DataCollectionPoint_IndicatorList_IndicatorId",
+                        name: "FK_DataCollectionPoints_IndicatorList_IndicatorId",
                         column: x => x.IndicatorId,
                         principalTable: "IndicatorList",
                         principalColumn: "Id",
@@ -45,8 +45,13 @@ namespace DesafioBackend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DataCollectionPoint_IndicatorId",
-                table: "DataCollectionPoint",
+                name: "IX_DataCollectionPoints_Date",
+                table: "DataCollectionPoints",
+                column: "Date");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DataCollectionPoints_IndicatorId",
+                table: "DataCollectionPoints",
                 column: "IndicatorId");
         }
 
@@ -54,7 +59,7 @@ namespace DesafioBackend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DataCollectionPoint");
+                name: "DataCollectionPoints");
 
             migrationBuilder.DropTable(
                 name: "IndicatorList");

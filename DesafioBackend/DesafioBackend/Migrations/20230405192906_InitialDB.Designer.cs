@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesafioBackend.Migrations
 {
     [DbContext(typeof(DesafioBackendContext))]
-    [Migration("20230404201534_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230405192906_InitialDB")]
+    partial class InitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,6 @@ namespace DesafioBackend.Migrations
             modelBuilder.Entity("DesafioBackend.DataCollection.DataCollectionPoint", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
@@ -37,27 +36,29 @@ namespace DesafioBackend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Date");
+
                     b.HasIndex("IndicatorId");
 
-                    b.ToTable("DataCollectionPoint");
+                    b.ToTable("DataCollectionPoints", (string)null);
                 });
 
             modelBuilder.Entity("DesafioBackend.Indicators.Indicator", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ResultType")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("IndicatorList");
+                    b.ToTable("IndicatorList", (string)null);
                 });
 
             modelBuilder.Entity("DesafioBackend.DataCollection.DataCollectionPoint", b =>

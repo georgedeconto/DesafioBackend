@@ -22,7 +22,9 @@ namespace DesafioBackend.Handlers
         }
         public async Task<IndicatorViewModel> Handle(GetIndicatorByIdQuery request, CancellationToken cancellationToken)
         {
-            var output = await _data.IndicatorList.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var output = await _data.IndicatorList
+                .Include(d => d.DataCollectionPoints)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
             if (output == null)
                 throw new InvalidOperationException("Indicator not found");
             return new IndicatorViewModel(output);

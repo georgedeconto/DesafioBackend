@@ -23,6 +23,7 @@ namespace DesafioBackend.Handlers
         public async Task<List<IndicatorViewModel>> Handle(GetIndicatorListQuery request, CancellationToken cancellationToken)
         {
             var indicatorList = await _data.IndicatorList
+                .Include(d => d.DataCollectionPoints)
                 .AsNoTracking()
                 .Select(x => new IndicatorViewModel(x))
                 .ToListAsync(cancellationToken);
