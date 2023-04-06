@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DesafioBackend.Handlers
 {
-    internal class GetIndicatorByIdHandler : IRequestHandler<GetIndicatorByIdQuery, IndicatorViewModel>
+    public class GetIndicatorByIdHandler : IRequestHandler<GetIndicatorByIdQuery, IndicatorViewModel>
     {
         private readonly DesafioBackendContext _data;
 

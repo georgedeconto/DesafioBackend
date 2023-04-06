@@ -24,7 +24,7 @@ namespace ApiDesafioBackend.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        [SwaggerOperation(Tags = new[] { "Indicator list" })]
+        [SwaggerOperation(Tags = new[] { "Get Indicator list" })]
         public async Task<List<IndicatorViewModel>> GetIndicatorList()
         {
             return await _mediator.Send(new GetIndicatorListQuery());
@@ -32,7 +32,7 @@ namespace ApiDesafioBackend.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        [SwaggerOperation(Tags = new[] { "Indicator by Id" })]
+        [SwaggerOperation(Tags = new[] { "Get Indicator by Id" })]
         public async Task<IndicatorViewModel> GetIndicatorById(Guid id)
         {
             return await _mediator.Send(new GetIndicatorByIdQuery(id));
@@ -48,7 +48,7 @@ namespace ApiDesafioBackend.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        [SwaggerOperation(Tags = new[] { "Add new Indicator" })]
+        [SwaggerOperation(Tags = new[] { "Post new Indicator" })]
         public async Task PostNewIndicator([FromBody] AddIndicatorPayload value)
         {
             await _mediator.Send(new AddIndicatorCommand(value.Name, value.ResultType));
@@ -56,8 +56,8 @@ namespace ApiDesafioBackend.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        [SwaggerOperation(Tags = new[] { "Add DataCollectionPoint" })]
-        public async Task PutDataCollectionPoint(Guid id, [FromBody] AddDataCollectionPointPayload value)
+        [SwaggerOperation(Tags = new[] { "Put New DataCollectionPoint" })]
+        public async Task PutNewDataCollectionPoint(Guid id, [FromBody] AddDataCollectionPointPayload value)
         {
             await _mediator.Send(new AddDataCollectionPointCommand(id, value.Date, value.Value));
         }
@@ -65,14 +65,14 @@ namespace ApiDesafioBackend.Controllers
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         [SwaggerOperation(Tags = new[] { "Delete Indicator" })]
-        public async Task Delete(Guid id)
+        public async Task DeleteIndicator(Guid id)
         {
             await _mediator.Send(new DeleteIndicatorCommand(id));
         }
 
         [HttpDelete("{id}/{date}")]
         [SwaggerOperation(Tags = new[] { "Delete Data Collection Point" })]
-        public async Task Delete(Guid id, DateTime date)
+        public async Task DeleteDataCollectionPoint(Guid id, DateTime date)
         {
             await _mediator.Send(new DeleteDataCollectionPointCommand(id, date));
         }

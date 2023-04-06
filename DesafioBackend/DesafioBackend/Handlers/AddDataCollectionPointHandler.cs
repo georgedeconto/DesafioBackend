@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DesafioBackend.Handlers
 {
-    internal class AddDataCollectionPointHandler : IRequestHandler<AddDataCollectionPointCommand>
+    public class AddDataCollectionPointHandler : IRequestHandler<AddDataCollectionPointCommand>
     {
         private readonly DesafioBackendContext _data;
 
