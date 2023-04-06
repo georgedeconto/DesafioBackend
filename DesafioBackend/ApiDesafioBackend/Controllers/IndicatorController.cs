@@ -11,7 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace ApiDesafioBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class IndicatorController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace ApiDesafioBackend.Controllers
         // GET: api/<ValuesController>
         [HttpGet]
         [SwaggerOperation(Tags = new[] { "Indicator list" })]
-        public async Task<List<IndicatorViewModel>> Get()
+        public async Task<List<IndicatorViewModel>> GetIndicatorList()
         {
             return await _mediator.Send(new GetIndicatorListQuery());
         }
@@ -33,15 +33,23 @@ namespace ApiDesafioBackend.Controllers
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         [SwaggerOperation(Tags = new[] { "Indicator by Id" })]
-        public async Task<IndicatorViewModel> Get(Guid id)
+        public async Task<IndicatorViewModel> GetIndicatorById(Guid id)
         {
             return await _mediator.Send(new GetIndicatorByIdQuery(id));
+        }
+
+        // GET api/<ValuesController>/5
+        [HttpGet("{id}")]
+        [SwaggerOperation(Tags = new[] { "Get Indicator Result" })]
+        public async Task<double> GetIndicatorResult(Guid id)
+        {
+            return await _mediator.Send(new GetIndicatorResultQuery(id));
         }
 
         // POST api/<ValuesController>
         [HttpPost]
         [SwaggerOperation(Tags = new[] { "Add new Indicator" })]
-        public async Task Post([FromBody] AddIndicatorPayload value)
+        public async Task PostNewIndicator([FromBody] AddIndicatorPayload value)
         {
             await _mediator.Send(new AddIndicatorCommand(value.Name, value.ResultType));
         }
@@ -49,7 +57,7 @@ namespace ApiDesafioBackend.Controllers
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
         [SwaggerOperation(Tags = new[] { "Add DataCollectionPoint" })]
-        public async Task Put(Guid id, [FromBody] AddDataCollectionPointPayload value)
+        public async Task PutDataCollectionPoint(Guid id, [FromBody] AddDataCollectionPointPayload value)
         {
             await _mediator.Send(new AddDataCollectionPointCommand(id, value.Date, value.Value));
         }

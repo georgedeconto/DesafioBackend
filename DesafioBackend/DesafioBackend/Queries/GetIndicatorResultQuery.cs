@@ -1,5 +1,4 @@
-﻿using DesafioBackend.Indicators;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace DesafioBackend.Queries
 {
-    public record GetIndicatorByIdQuery(Guid Id) : IRequest<IndicatorViewModel>;
+    public record GetIndicatorResultQuery(Guid Id) : IRequest<double>;
 }

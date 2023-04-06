@@ -8,8 +8,5 @@ using System.Threading.Tasks;
 
 namespace DesafioBackend.Queries
 {
-    public class GetIndicatorListQuery : IRequest<List<IndicatorViewModel>>
-    {
-    }
-
+    public record GetIndicatorListQuery : IRequest<List<IndicatorViewModel>>;
 }
