@@ -21,6 +21,11 @@ namespace DesafioBackend.Handlers
         }
         public async Task Handle(AddIndicatorCommand request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrWhiteSpace(request.Name))
+                throw new ArgumentException("Name cannot be empty or white space");
+
+            if (request.ResultType.GetType() != typeof(EnumResult))
+                throw new ArgumentException("Invalid ResultType");
 
             var newIndicator = new Indicator(request.Name, request.ResultType);
             await _data.IndicatorList.AddAsync(newIndicator);

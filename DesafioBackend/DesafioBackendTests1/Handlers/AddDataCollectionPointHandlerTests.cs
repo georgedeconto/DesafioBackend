@@ -54,32 +54,26 @@ namespace DesafioBackend.Handlers.Tests
             await _handler.Handle(command, default);
 
             //assert
-            _context.IndicatorList.Should().HaveCount(1);
             indicator1.DataCollectionPoints.Should().HaveCount(1);
-            var newDCP = indicator1.DataCollectionPoints[0];
+            var newDCP = indicator1.DataCollectionPoints.First();
             newDCP.Date.Should().Be(newDCPDate);
             newDCP.Value.Should().Be(newDCPValue);
         }
 
         [Fact]
-        public async Task AddDataCollectionPointHandler_ShouldThrowException_WhenIdDoesntExist()
+        public async Task AddDataCollectionPointHandler_ShouldThrowException_WhenIndicatorDoesntExist()
         {
             //arrange
-            var indicator1 = new Indicator(name: "indicator sum", resultType: EnumResult.Sum);
-
-            await _context.AddAsync(indicator1);
-            await _context.SaveChangesAsync();
-
             var newDCPDate = DateTime.Today.AddDays(-1);
             var newDCPValue = 10;
 
             var command = new AddDataCollectionPointCommand(Guid.NewGuid(), newDCPDate, newDCPValue);
-            
+
             //act
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            await act.Should().ThrowAsync<InvalidOperationException>("*Indicator not found*");
+            await act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
         }
     }
 }

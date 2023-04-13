@@ -26,7 +26,7 @@ namespace DesafioBackend.Handlers
                 .Include(d => d.DataCollectionPoints)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
             if (output == null)
-                throw new InvalidOperationException("Indicator not found");
+                throw new InvalidOperationException("404 NotFound");
             return new IndicatorViewModel(output);
         }
     }

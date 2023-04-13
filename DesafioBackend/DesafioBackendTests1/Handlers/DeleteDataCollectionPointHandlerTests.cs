@@ -40,20 +40,17 @@ namespace DesafioBackend.Handlers.Tests
         {
             //arrange
             var indicator1 = new Indicator(name: "indicator sum", resultType: EnumResult.Sum);
-            indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-5), 100);
-            indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-4), 50);
+            var selectedDCPDate = DateTime.Today.AddDays(-5);
+            var remainingDCPDate = DateTime.Today.AddDays(-4);
+            indicator1.AddDataCollectionPoint(selectedDCPDate, 100);
+            indicator1.AddDataCollectionPoint(remainingDCPDate, 50);
 
-            var indicator2 = new Indicator(name: "indicator average", resultType: EnumResult.Average);
-            indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-2), 11.6);
-            indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-3), 5.9);
-
-            await _context.AddAsync(indicator1);
-            await _context.AddAsync(indicator2);
+            await _context.IndicatorList.AddAsync(indicator1);
 
             await _context.SaveChangesAsync();
 
-            var selectedDCP = indicator1.DataCollectionPoints[0];
-            var remainingDCP = indicator1.DataCollectionPoints[1];
+            var selectedDCP = indicator1.GetDataCollectionPoint(selectedDCPDate);
+            var remainingDCP = indicator1.GetDataCollectionPoint(remainingDCPDate);
 
             var command = new DeleteDataCollectionPointCommand(indicator1.Id, selectedDCP.Date);
 
@@ -61,14 +58,13 @@ namespace DesafioBackend.Handlers.Tests
             await _handler.Handle(command, default);
 
             //assert
-            _context.IndicatorList.FirstOrDefault().DataCollectionPoints[0].Should().Be(remainingDCP);
-            _context.IndicatorList.Should().HaveCount(2);
+            _context.IndicatorList.FirstOrDefault().DataCollectionPoints.First().Should().Be(remainingDCP);
+            _context.IndicatorList.FirstOrDefault().DataCollectionPoints.Should().HaveCount(1);
         }
 
         [Fact]
-        public async Task DeleteIndicatorDataCollectionPointHandler_ShouldThrowException_WhenIdDoesntExist()
+        public async Task DeleteIndicatorDataCollectionPointHandler_ShouldThrowException_WhenIndicatorDoesntExist()
         {
-            //arrange
             //arrange
             var indicator1 = new Indicator(name: "indicator sum", resultType: EnumResult.Sum);
             indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-5), 100);
@@ -84,13 +80,12 @@ namespace DesafioBackend.Handlers.Tests
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            await act.Should().ThrowAsync<InvalidOperationException>("*Indicator not found*");
+            await act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
         }
 
         [Fact]
-        public async Task DeleteIndicatorDataCollectionPointHandler_ShouldThrowException_WhenDateDoesntExist()
+        public async Task DeleteIndicatorDataCollectionPointHandler_ShouldThrowException_WhenThereIsNoDataCollectionPointForTheDate()
         {
-            //arrange
             //arrange
             var indicator1 = new Indicator(name: "indicator sum", resultType: EnumResult.Sum);
             indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-5), 100);
@@ -106,7 +101,7 @@ namespace DesafioBackend.Handlers.Tests
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            await act.Should().ThrowAsync<InvalidOperationException>("*Data Collection Point not found*");
+            await act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
         }
     }
 }

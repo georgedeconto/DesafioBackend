@@ -17,19 +17,19 @@ namespace DesafioBackend.DataBase
                 .ToTable("IndicatorList");
 
             builder
-                .HasKey(k => k.Id);
+                .HasKey(i => i.Id);
 
             builder
-                .Property(k => k.Id)
+                .Property(i => i.Id)
                 .ValueGeneratedNever();
 
             builder
-                .Property(k => k.Name)
+                .Property(i => i.Name)
                 .HasMaxLength(100)
                 .IsRequired();
 
             builder
-                .Property(k => k.ResultType)
+                .Property(i => i.ResultType)
                 .IsRequired();
         }
     }

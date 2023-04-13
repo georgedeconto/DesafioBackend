@@ -39,13 +39,29 @@ namespace DesafioBackend.Handlers.Tests
         public async Task GetIndicatorListHandler_ShouldReturnIndicatorList()
         {
             //arrange
-            var indicator1 = new Indicator(name: "indicator sum", resultType: EnumResult.Sum);
-            indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-5), 100);
-            indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-4), 50);
+            var indicator1Name = "indicator sum";
+            var indicator1Type = EnumResult.Sum;
+            var indicator1 = new Indicator(name: indicator1Name, resultType: indicator1Type);
 
-            var indicator2 = new Indicator(name: "indicator average", resultType: EnumResult.Average);
-            indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-2), 11.6);
-            indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-3), 5.9);
+            var DCP1ADate = DateTime.Today.AddDays(-5);
+            var DCP1AValue = 100;
+            indicator1.AddDataCollectionPoint(DCP1ADate, DCP1AValue);
+
+            var DCP1BDate = DateTime.Today.AddDays(-4);
+            var DCP1BValue = 50;
+            indicator1.AddDataCollectionPoint(DCP1BDate, DCP1BValue);
+
+            var indicator2Name = "indicator average";
+            var indicator2Type = EnumResult.Average;
+            var indicator2 = new Indicator(name: indicator2Name, resultType: indicator2Type);
+
+            var DCP2ADate = DateTime.Today.AddDays(-2);
+            var DCP2AValue = 11.6;
+            indicator2.AddDataCollectionPoint(DCP2ADate, DCP2AValue);
+
+            var DCP2BDate = DateTime.Today.AddDays(-3);
+            var DCP2BValue = 5.9;
+            indicator2.AddDataCollectionPoint(DCP2BDate, DCP2BValue);
 
             await _context.AddAsync(indicator1);
             await _context.AddAsync(indicator2);
@@ -59,7 +75,25 @@ namespace DesafioBackend.Handlers.Tests
 
             //assert
             response.GetType().Should().Be(typeof(List<IndicatorViewModel>));
-            response.Count.Should().Be(2);
+            response.Should().HaveCount(2);
+
+            var selectedIndicator1 = response.FirstOrDefault(i => i.Name == indicator1Name);
+            selectedIndicator1.ResultType.Should().Be(indicator1Type);
+
+            var selectedDCP1A = selectedIndicator1.DataCollectionPoints.FirstOrDefault(d => d.Date == DCP1ADate);
+            selectedDCP1A.Value.Should().Be(DCP1AValue);
+
+            var selectedDCP1B = selectedIndicator1.DataCollectionPoints.FirstOrDefault(d => d.Date == DCP1BDate);
+            selectedDCP1B.Value.Should().Be(DCP1BValue);
+
+            var selectedIndicator2 = response.FirstOrDefault(i => i.Name == indicator2Name);
+            selectedIndicator2.ResultType.Should().Be(indicator2Type);
+
+            var selectedDCP2A = selectedIndicator2.DataCollectionPoints.FirstOrDefault(d => d.Date == DCP2ADate);
+            selectedDCP2A.Value.Should().Be(DCP2AValue);
+
+            var selectedDCP2B = selectedIndicator2.DataCollectionPoints.FirstOrDefault(d => d.Date == DCP2BDate);
+            selectedDCP2B.Value.Should().Be(DCP2BValue);
         }
 
     }

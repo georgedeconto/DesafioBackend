@@ -36,6 +36,14 @@ namespace DesafioBackend.Indicators
             ResultType = resultType;
         }
 
+        public DataCollectionPoint GetDataCollectionPoint(DateTime date)
+        {
+            var selectedDataCollectionPoint = DataCollectionPoints.FirstOrDefault(d => d.Date == date);
+            if (selectedDataCollectionPoint == null)
+                throw new ArgumentException("Data Collection Point not found");
+            return selectedDataCollectionPoint;
+        }
+
         public void AddDataCollectionPoint(DateTime date, double value)
         {
             var dataCollectionPoint = DataCollectionPoints.FirstOrDefault(c => c.Date == date);

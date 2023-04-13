@@ -1,5 +1,6 @@
 ﻿using DesafioBackend.Commands;
 using DesafioBackend.DataBase;
+using DesafioBackend.Indicators;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,23 +12,21 @@ using System.Threading.Tasks;
 
 namespace DesafioBackend.Handlers
 {
-    public class DeleteIndicatorHandler : IRequestHandler<DeleteIndicatorCommand>
+    public class EditIndicatorHandler : IRequestHandler<EditIndicatorCommand>
     {
         private readonly DesafioBackendContext _data;
 
-        public DeleteIndicatorHandler(DesafioBackendContext data)
+        public EditIndicatorHandler(DesafioBackendContext data)
         {
             _data = data;
         }
-
-        public async Task Handle(DeleteIndicatorCommand request, CancellationToken cancellationToken)
+        public async Task Handle(EditIndicatorCommand request, CancellationToken cancellationToken)
         {
             var selectedIndicator = await _data.IndicatorList.FirstOrDefaultAsync(x => x.Id == request.Id);
             if (selectedIndicator == null)
                 throw new InvalidOperationException("404 NotFound");
-            _data.IndicatorList.Remove(selectedIndicator);
+            selectedIndicator.SetName(request.Name);
             await _data.SaveChangesAsync();
         }
-
     }
 }

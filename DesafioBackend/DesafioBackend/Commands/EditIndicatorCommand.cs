@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace DesafioBackend.Commands
 {
-    public record DeleteDataCollectionPointCommand(Guid IndicatorId, DateTime DataCollectionPointDate) : IRequest;
+    public record EditIndicatorCommand(Guid Id, string Name) : IRequest;
 }

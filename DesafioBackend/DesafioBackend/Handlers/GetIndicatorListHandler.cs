@@ -25,7 +25,7 @@ namespace DesafioBackend.Handlers
             var indicatorList = await _data.IndicatorList
                 .Include(d => d.DataCollectionPoints)
                 .AsNoTracking()
-                .Select(x => new IndicatorViewModel(x))
+                .Select(i => new IndicatorViewModel(i))
                 .ToListAsync(cancellationToken);
 
             return indicatorList;

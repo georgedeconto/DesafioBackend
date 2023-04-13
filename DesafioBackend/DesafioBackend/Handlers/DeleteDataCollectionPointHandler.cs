@@ -25,15 +25,15 @@ namespace DesafioBackend.Handlers
                 .Include(x => x.DataCollectionPoints)
                 .FirstOrDefaultAsync(x => x.Id == request.IndicatorId);
             if (selectedIndicator == null)
-                throw new InvalidOperationException("Indicator not found");
+                throw new InvalidOperationException("404 NotFound");
 
             var selectedDCP = selectedIndicator.DataCollectionPoints
-                .FirstOrDefault(dcp => dcp.Date == request.DCPDate);
+                .FirstOrDefault(dcp => dcp.Date == request.DataCollectionPointDate);
             if (selectedDCP == null)
-                throw new InvalidOperationException("Data Collection Point not found");
+                throw new InvalidOperationException("404 NotFound");
 
-            selectedIndicator.DataCollectionPoints.Remove(selectedDCP);
-            _data.Update(selectedIndicator);
+            selectedIndicator.DeleteDataCollectionPoint(request.DataCollectionPointDate);
+            _data.IndicatorList.Update(selectedIndicator);
             await _data.SaveChangesAsync(cancellationToken);
         }
     }

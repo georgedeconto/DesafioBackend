@@ -7,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ApiDesafioBackend.Controllers
 {
@@ -22,7 +21,6 @@ namespace ApiDesafioBackend.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/<ValuesController>
         [HttpGet]
         [SwaggerOperation(Tags = new[] { "Get Indicator list" })]
         public async Task<List<IndicatorViewModel>> GetIndicatorList()
@@ -30,7 +28,6 @@ namespace ApiDesafioBackend.Controllers
             return await _mediator.Send(new GetIndicatorListQuery());
         }
 
-        // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         [SwaggerOperation(Tags = new[] { "Get Indicator by Id" })]
         public async Task<IndicatorViewModel> GetIndicatorById(Guid id)
@@ -38,7 +35,6 @@ namespace ApiDesafioBackend.Controllers
             return await _mediator.Send(new GetIndicatorByIdQuery(id));
         }
 
-        // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         [SwaggerOperation(Tags = new[] { "Get Indicator Result" })]
         public async Task<double> GetIndicatorResult(Guid id)
@@ -46,23 +42,27 @@ namespace ApiDesafioBackend.Controllers
             return await _mediator.Send(new GetIndicatorResultQuery(id));
         }
 
-        // POST api/<ValuesController>
         [HttpPost]
-        [SwaggerOperation(Tags = new[] { "Post new Indicator" })]
+        [SwaggerOperation(Tags = new[] { "Create new Indicator" })]
         public async Task PostNewIndicator([FromBody] AddIndicatorPayload value)
         {
             await _mediator.Send(new AddIndicatorCommand(value.Name, value.ResultType));
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        [SwaggerOperation(Tags = new[] { "Put New DataCollectionPoint" })]
+        [HttpPut("{id}/data-collection-point")]
+        [SwaggerOperation(Tags = new[] { "Add New Data Collection Point" })]
         public async Task PutNewDataCollectionPoint(Guid id, [FromBody] AddDataCollectionPointPayload value)
         {
             await _mediator.Send(new AddDataCollectionPointCommand(id, value.Date, value.Value));
         }
 
-        // DELETE api/<ValuesController>/5
+        [HttpPut("{id}")]
+        [SwaggerOperation(Tags = new[] { "Edit Indicator" })]
+        public async Task PutIndicator(Guid id, [FromBody] string value)
+        {
+            await _mediator.Send(new EditIndicatorCommand(Id: id, Name: value));
+        }
+
         [HttpDelete("{id}")]
         [SwaggerOperation(Tags = new[] { "Delete Indicator" })]
         public async Task DeleteIndicator(Guid id)
@@ -70,7 +70,7 @@ namespace ApiDesafioBackend.Controllers
             await _mediator.Send(new DeleteIndicatorCommand(id));
         }
 
-        [HttpDelete("{id}/{date}")]
+        [HttpDelete("{id}/data-collection-point/{date}")]
         [SwaggerOperation(Tags = new[] { "Delete Data Collection Point" })]
         public async Task DeleteDataCollectionPoint(Guid id, DateTime date)
         {

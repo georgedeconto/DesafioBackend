@@ -62,7 +62,7 @@ namespace DesafioBackend.Handlers.Tests
         }
 
         [Fact]
-        public async Task GetIndicatorByIdHandler_ShouldThrowException_WhenIdDoesntExist()
+        public async Task GetIndicatorByIdHandler_ShouldThrowException_WhenIndicatorDoesntExist()
         {
             //arrange
             var command = new GetIndicatorByIdQuery(Guid.NewGuid());
@@ -71,7 +71,7 @@ namespace DesafioBackend.Handlers.Tests
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            act.Should().ThrowAsync<InvalidOperationException>("*Indicator not found*");
+            act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
         }
     }
 }

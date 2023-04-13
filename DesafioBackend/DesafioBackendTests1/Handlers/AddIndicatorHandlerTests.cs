@@ -58,9 +58,9 @@ namespace DesafioBackend.Handlers.Tests
             await _handler.Handle(command, default);
 
             //assert
-            _context.IndicatorList.Should().HaveCount(2);
-            _context.IndicatorList
-                .FirstOrDefault(x=> x.Name == newIndicatorName)
+            var indicators = _context.IndicatorList;
+            indicators.Should().HaveCount(2);
+            indicators.FirstOrDefault(x=> x.Name == newIndicatorName)
                 .ResultType.Should().Be(newIndicatorResultType);
         }
     }
