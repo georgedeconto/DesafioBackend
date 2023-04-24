@@ -3,12 +3,10 @@ using DesafioBackend.Indicators;
 using DesafioBackend.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace DesafioBackend.Handlers
 {
@@ -22,11 +20,11 @@ namespace DesafioBackend.Handlers
         }
         public async Task<IndicatorViewModel> Handle(GetIndicatorByIdQuery request, CancellationToken cancellationToken)
         {
-            var output = await _data.IndicatorList
+            var output = await _data.Indicators
                 .Include(d => d.DataCollectionPoints)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
             if (output == null)
-                throw new InvalidOperationException("404 NotFound");
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             return new IndicatorViewModel(output);
         }
     }

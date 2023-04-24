@@ -47,7 +47,7 @@ namespace DesafioBackend.Handlers.Tests
             var newIndicatorName = "new name";
             var newIndicatorResultType = EnumResult.Sum;
 
-            await _context.AddAsync(indicator1);
+            await _context.Indicators.AddAsync(indicator1);
 
             await _context.SaveChangesAsync();
 
@@ -58,7 +58,7 @@ namespace DesafioBackend.Handlers.Tests
             await _handler.Handle(command, default);
 
             //assert
-            var indicators = _context.IndicatorList;
+            var indicators = _context.Indicators;
             indicators.Should().HaveCount(2);
             indicators.FirstOrDefault(x=> x.Name == newIndicatorName)
                 .ResultType.Should().Be(newIndicatorResultType);

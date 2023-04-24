@@ -35,11 +35,11 @@ namespace DesafioBackend.DataBase
                 .Property(dcp => dcp.Value)
                 .IsRequired();
 
-            //builder
-            //    .HasOne(dcp => dcp.Indicator)
-            //    .WithMany(dcp => dcp.DataCollectionPoints)
-            //    .HasForeignKey(dcp => dcp.IndicatorId)
-            //    .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasOne(dcp => dcp.Indicator)
+                .WithMany(dcp => dcp.DataCollectionPoints)
+                .HasForeignKey(dcp => dcp.IndicatorId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

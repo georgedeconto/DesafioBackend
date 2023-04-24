@@ -3,6 +3,7 @@ using System;
 using DesafioBackend.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesafioBackend.Migrations
 {
     [DbContext(typeof(DesafioBackendContext))]
-    partial class DesafioBackendContextModelSnapshot : ModelSnapshot
+    [Migration("20230419175446_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
@@ -55,16 +58,18 @@ namespace DesafioBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Indicators", (string)null);
+                    b.ToTable("IndicatorList", (string)null);
                 });
 
             modelBuilder.Entity("DesafioBackend.DataCollection.DataCollectionPoint", b =>
                 {
-                    b.HasOne("DesafioBackend.Indicators.Indicator", null)
+                    b.HasOne("DesafioBackend.Indicators.Indicator", "Indicator")
                         .WithMany("DataCollectionPoints")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Indicator");
                 });
 
             modelBuilder.Entity("DesafioBackend.Indicators.Indicator", b =>

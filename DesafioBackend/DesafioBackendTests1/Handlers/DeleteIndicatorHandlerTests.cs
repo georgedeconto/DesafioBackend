@@ -60,8 +60,8 @@ namespace DesafioBackend.Handlers.Tests
             await _handler.Handle(command, default);
 
             //assert
-            _context.IndicatorList.Should().HaveCount(1);
-            _context.IndicatorList.FirstOrDefault().Should().Be(indicator2);
+            _context.Indicators.Should().HaveCount(1);
+            _context.Indicators.FirstOrDefault().Should().Be(indicator2);
         }
 
         [Fact]

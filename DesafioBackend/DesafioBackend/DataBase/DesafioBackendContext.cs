@@ -18,7 +18,7 @@ namespace DesafioBackend.DataBase
         {
         }
 
-        public DbSet<Indicator> IndicatorList => Set<Indicator>();
+        public DbSet<Indicator> Indicators => Set<Indicator>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

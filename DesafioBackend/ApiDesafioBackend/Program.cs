@@ -5,6 +5,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using MediatR;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,12 @@ builder.Services.AddDbContext<DesafioBackendContext>(o => o.UseSqlite(connection
 
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => c.EnableAnnotations()); ;
@@ -62,8 +69,8 @@ static void AddInitialData(WebApplication app)
     indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-2), 11.6);
     indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-3), 5.9);
 
-    db.IndicatorList.Add(indicator1);
-    db.IndicatorList.Add(indicator2);
+    db.Indicators.Add(indicator1);
+    db.Indicators.Add(indicator2);
 
     db.SaveChanges();
 }

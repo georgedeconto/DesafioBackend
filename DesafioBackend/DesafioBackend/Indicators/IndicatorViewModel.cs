@@ -9,17 +9,17 @@ namespace DesafioBackend.Indicators
 {
     public struct IndicatorViewModel
     {
-        public Guid Id { get; init; }
-        public string Name { get; init; }
-        public EnumResult ResultType { get; init; }
-        public List<DataCollectionPoint> DataCollectionPoints { get; init; }
+        public Guid Id { get;  }
+        public string Name { get;  }
+        public EnumResult ResultType { get; }
+        public List<DataCollectionPointViewModel> DataCollectionPoints { get; }
 
         public IndicatorViewModel(Indicator indicator)
         {
             Id = indicator.Id;
             Name = indicator.Name;
             ResultType = indicator.ResultType;
-            DataCollectionPoints = indicator.DataCollectionPoints;
+            DataCollectionPoints = new List<DataCollectionPointViewModel>(indicator.DataCollectionPoints.Select(d => new DataCollectionPointViewModel(d)));
         }
     }
 }

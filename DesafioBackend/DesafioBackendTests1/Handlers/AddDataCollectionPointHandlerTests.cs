@@ -12,6 +12,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using FluentAssertions;
+using System.Web.Http;
 
 namespace DesafioBackend.Handlers.Tests
 {
@@ -73,7 +74,7 @@ namespace DesafioBackend.Handlers.Tests
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            await act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
+            await act.Should().ThrowAsync<HttpResponseException>("*404*");
         }
     }
 }

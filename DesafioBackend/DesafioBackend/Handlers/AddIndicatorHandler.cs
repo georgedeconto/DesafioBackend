@@ -3,9 +3,6 @@ using DesafioBackend.DataBase;
 using DesafioBackend.Indicators;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +25,7 @@ namespace DesafioBackend.Handlers
                 throw new ArgumentException("Invalid ResultType");
 
             var newIndicator = new Indicator(request.Name, request.ResultType);
-            await _data.IndicatorList.AddAsync(newIndicator);
+            await _data.Indicators.AddAsync(newIndicator);
             await _data.SaveChangesAsync();
         }
     }

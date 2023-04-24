@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace ApiDesafioBackend.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/indicators")]
     [ApiController]
     public class IndicatorController : ControllerBase
     {
@@ -35,7 +35,7 @@ namespace ApiDesafioBackend.Controllers
             return await _mediator.Send(new GetIndicatorByIdQuery(id));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/indicator-result")]
         [SwaggerOperation(Tags = new[] { "Get Indicator Result" })]
         public async Task<double> GetIndicatorResult(Guid id)
         {
@@ -49,18 +49,18 @@ namespace ApiDesafioBackend.Controllers
             await _mediator.Send(new AddIndicatorCommand(value.Name, value.ResultType));
         }
 
-        [HttpPut("{id}/data-collection-point")]
+        [HttpPost("{id}/data-collection-point")]
         [SwaggerOperation(Tags = new[] { "Add New Data Collection Point" })]
-        public async Task PutNewDataCollectionPoint(Guid id, [FromBody] AddDataCollectionPointPayload value)
+        public async Task PostNewDataCollectionPoint(Guid id, [FromBody] AddDataCollectionPointPayload value)
         {
             await _mediator.Send(new AddDataCollectionPointCommand(id, value.Date, value.Value));
         }
 
         [HttpPut("{id}")]
         [SwaggerOperation(Tags = new[] { "Edit Indicator" })]
-        public async Task PutIndicator(Guid id, [FromBody] string value)
+        public async Task PutIndicator(Guid id, [FromBody] EditIndicatorPayload value)
         {
-            await _mediator.Send(new EditIndicatorCommand(Id: id, Name: value));
+            await _mediator.Send(new EditIndicatorCommand(Id: id, Name: value.Name, ResultType: value.ResultType));
         }
 
         [HttpDelete("{id}")]

@@ -10,6 +10,7 @@ namespace DesafioBackend.DataCollection
         public Guid IndicatorId { get; init; }
         public DateTime Date { get; init; }
         public double Value { get; private set; }
+        public virtual Indicator Indicator { get; }
 
         public DataCollectionPoint(Guid indicatorId, DateTime date, double value)
         {

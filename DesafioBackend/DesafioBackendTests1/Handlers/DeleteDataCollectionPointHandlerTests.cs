@@ -12,6 +12,7 @@ using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using System.Web.Http;
 
 namespace DesafioBackend.Handlers.Tests
 {
@@ -45,7 +46,7 @@ namespace DesafioBackend.Handlers.Tests
             indicator1.AddDataCollectionPoint(selectedDCPDate, 100);
             indicator1.AddDataCollectionPoint(remainingDCPDate, 50);
 
-            await _context.IndicatorList.AddAsync(indicator1);
+            await _context.Indicators.AddAsync(indicator1);
 
             await _context.SaveChangesAsync();
 
@@ -58,8 +59,8 @@ namespace DesafioBackend.Handlers.Tests
             await _handler.Handle(command, default);
 
             //assert
-            _context.IndicatorList.FirstOrDefault().DataCollectionPoints.First().Should().Be(remainingDCP);
-            _context.IndicatorList.FirstOrDefault().DataCollectionPoints.Should().HaveCount(1);
+            _context.Indicators.FirstOrDefault().DataCollectionPoints.First().Should().Be(remainingDCP);
+            _context.Indicators.FirstOrDefault().DataCollectionPoints.Should().HaveCount(1);
         }
 
         [Fact]
@@ -80,7 +81,7 @@ namespace DesafioBackend.Handlers.Tests
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            await act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
+            await act.Should().ThrowAsync<HttpResponseException>("*404*");
         }
 
         [Fact]
@@ -101,7 +102,7 @@ namespace DesafioBackend.Handlers.Tests
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            await act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
+            await act.Should().ThrowAsync<HttpResponseException>("*404*");
         }
     }
 }

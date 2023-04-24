@@ -14,7 +14,7 @@ namespace DesafioBackend.DataBase
         public void Configure(EntityTypeBuilder<Indicator> builder)
         {
             builder
-                .ToTable("IndicatorList");
+                .ToTable("Indicators");
 
             builder
                 .HasKey(i => i.Id);

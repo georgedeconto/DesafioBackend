@@ -12,6 +12,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using FluentAssertions;
+using System.Web.Http;
 
 namespace DesafioBackend.Handlers.Tests
 {
@@ -40,8 +41,12 @@ namespace DesafioBackend.Handlers.Tests
         {
             //arrange
             var indicator1 = new Indicator(name: "indicator sum", resultType: EnumResult.Sum);
-            indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-5), 100);
-            indicator1.AddDataCollectionPoint(DateTime.Today.AddDays(-4), 50);
+            var DCP1Date = DateTime.Today.AddDays(-5);
+            var DCP1Value = 100;
+            var DCP2Date = DateTime.Today.AddDays(-4);
+            var DCP2Value = 50;
+            indicator1.AddDataCollectionPoint(DCP1Date, DCP1Value);
+            indicator1.AddDataCollectionPoint(DCP2Date, DCP2Value);
 
             var indicator2 = new Indicator(name: "indicator average", resultType: EnumResult.Average);
             indicator2.AddDataCollectionPoint(DateTime.Today.AddDays(-2), 11.6);
@@ -58,7 +63,15 @@ namespace DesafioBackend.Handlers.Tests
             var response = await _handler.Handle(command, default);
 
             //assert
-            response.Should().Be(new IndicatorViewModel(indicator1));
+            response.Id.Should().Be(indicator1.Id);
+            response.Name.Should().Be(indicator1.Name);
+            response.ResultType.Should().Be(indicator1.ResultType);
+
+            var DCP1 = response.DataCollectionPoints.FirstOrDefault(d => d.Date == DCP1Date);
+            DCP1.Value.Should().Be(DCP1Value);
+
+            var DCP2 = response.DataCollectionPoints.FirstOrDefault(d => d.Date == DCP2Date);
+            DCP2.Value.Should().Be(DCP2Value);
         }
 
         [Fact]
@@ -71,7 +84,7 @@ namespace DesafioBackend.Handlers.Tests
             var act = async () => await _handler.Handle(command, default);
 
             //assert
-            act.Should().ThrowAsync<InvalidOperationException>("*404 NotFound*");
+            act.Should().ThrowAsync<HttpResponseException>("*404*");
         }
     }
 }
