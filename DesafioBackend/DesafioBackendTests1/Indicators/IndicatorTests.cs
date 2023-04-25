@@ -126,6 +126,39 @@ namespace DesafioBackend.Indicators.Tests
         }
 
         [Fact]
+        public void GetDataCollectionPoint_ShouldGetDataCollectionPoint()
+        {
+            //arrange
+            var indicator = new Indicator(name: "name", resultType: EnumResult.Average);
+            var date1 = DateTime.Today;
+            var value1 = 40;
+            var date2 = DateTime.Today.AddDays(-1);
+            var value2 = 50;
+            indicator.AddDataCollectionPoint(date: date1, value: value1);
+            indicator.AddDataCollectionPoint(date: date2, value: value2);
+
+            //act
+            var selectedDCP = indicator.GetDataCollectionPoint(date1);
+
+            //assert
+            selectedDCP.Should().NotBeNull();
+            selectedDCP.Value.Should().Be(value1);
+        }
+
+        [Fact]
+        public void GetDataCollectionPoint_ShouldThrowException_WhenDataCollectionPointDoesNotExist()
+        {
+            //arrange
+            var indicator = new Indicator(name: "name", resultType: EnumResult.Sum);
+
+            //act
+            var act = () => indicator.GetDataCollectionPoint(DateTime.Today);
+
+            //assert
+            act.Should().Throw<ArgumentException>("*404 NotFound*");
+        }
+
+        [Fact]
         public void DeleteDataCollectionPoint_ShouldThrowException_WhenDataCollectionPointDoesNotExist()
         {
             //arrange

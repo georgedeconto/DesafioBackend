@@ -1,11 +1,17 @@
 ﻿using DesafioBackend.DataCollection;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace DesafioBackend.Indicators
 {
     public class Indicator
     {
-        public Guid Id { get; }
+        public Guid Id { get; init; }
         public string Name { get; private set; } = null!;
         public EnumResult ResultType { get; private set; }
         public List<DataCollectionPoint> DataCollectionPoints { get; private set; }
@@ -28,6 +34,14 @@ namespace DesafioBackend.Indicators
         public void SetResultType(EnumResult resultType)
         {
             ResultType = resultType;
+        }
+
+        public DataCollectionPoint GetDataCollectionPoint(DateTime date)
+        {
+            var selectedDataCollectionPoint = DataCollectionPoints.FirstOrDefault(d => d.Date == date);
+            if (selectedDataCollectionPoint == null)
+                throw new ArgumentException("Data Collection Point not found");
+            return selectedDataCollectionPoint;
         }
 
         public void AddDataCollectionPoint(DateTime date, double value)
